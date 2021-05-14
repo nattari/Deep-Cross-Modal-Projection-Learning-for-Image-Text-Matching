@@ -84,7 +84,8 @@ def main(args):
     ])
     # data
     train_loader = data_config(args.image_dir, args.anno_dir, args.batch_size, 'train', args.max_length, train_transform)
-    #val_loader = data_config(args.dataset_dir, 64, 'val', args.max_length, val_transform)
+    #NA(remove) val_loader = data_config(args.dataset_dir, 64, 'val', args.max_length, val_transform)
+    # val_loader = data_config(args.image_dir, args.anno_dir, args.batch_size, 'train', args.max_length, train_transform)
     
     # loss
     compute_loss = Loss(args)

@@ -1,12 +1,13 @@
 GPUS=3
 export CUDA_VISIBLE_DEVICES=$GPUS
 
-BASE_ROOT=/home/zhangqi/Deep-Cross-Modal-Projection-Learning-for-Image-Text-Matching
-IMAGE_DIR=/home/zhangqi/TriCrossModalV2/data/
-ANNO_DIR=$BASE_ROOT/data/processed_data
-CKPT_DIR=$BASE_ROOT/data/model_data
+BASE_ROOT=/Users/nattari/Bielefeld_Work
+INPUT_FILES=$BASE_ROOT/bitbucket/project_na/Deep-Cross-Modal-Projection-Learning-for-Image-Text-Matching
+IMAGE_DIR=$BASE_ROOT/Data/CUB_200_2011/CUB_200_2011/images
+ANNO_DIR=$BASE_ROOT/bitbucket/project_na/Deep-Cross-Modal-Projection-Learning-for-Image-Text-Matching/data
+CKPT_DIR=$BASE_ROOT/bitbucket/project_na/Deep-Cross-Modal-Projection-Learning-for-Image-Text-Matching/data/model_data
 LOG_DIR=$BASE_ROOT/data/logs
-PRETRAINED_PATH=$BASE_ROOT/pretrained_models/mobilenet.tar
+PRETRAINED_PATH=$BASE_ROOT/bitbucket/project_na/Deep-Cross-Modal-Projection-Learning-for-Image-Text-Matching/pretrained_models/mobilenet.tar
 #PRETRAINED_PATH=$BASE_ROOT/resnet50.pth
 IMAGE_MODEL=mobilenet_v1
 lr=0.0002
@@ -15,7 +16,7 @@ batch_size=16
 lr_decay_ratio=0.9
 epoches_decay=80_150_200
 
-python3.5 $BASE_ROOT/train.py \
+python $INPUT_FILES/train.py \
     --CMPC \
     --CMPM \
     --bidirectional \

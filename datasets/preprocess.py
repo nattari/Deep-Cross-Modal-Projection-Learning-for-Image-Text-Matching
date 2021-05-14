@@ -47,12 +47,12 @@ def add_start_end(tokens, start_word='<START>', end_word='<END>'):
     return tokens_processed
 
 
-def process_captions(imgs):
-    for img in imgs:
-        img['processed_tokens'] = []
-        for s in img['captions']:
+def process_captions(inp):
+    for ix in inp['info']:
+        ix['processed_tokens'] = []
+        for s in ix['all_captions']:
             tokens = cap2tokens(s)
-            img['processed_tokens'].append(tokens)
+            ix['processed_tokens'].append(tokens)
 
 
 def build_vocab(imgs, args):
@@ -118,15 +118,17 @@ def process_metadata(split, data, args):
     image_metadata = []
     num_captions = 0
     count = 0
+    id = -1
 
     for img in data:
         count += 1
         # absolute image path
         # filepath = os.path.join(args.img_root, img['file_path'])
         # relative image path
-        filepath = img['file_path']
+        filepath = os.path.join(img['class_name'], img['image_name'])
         # assert os.path.exists(filepath)
-        id = img['id'] - 1
+        # id = img['id'] - 1
+        id += 1
         captions = img['processed_tokens']
         id_to_captions.setdefault(id, [])
         id_to_captions[id].append(captions)
@@ -244,22 +246,24 @@ def write_dataset(split, data, args, label_range=None):
 def generate_split(args):
 
     with open(args.json_root,'r') as f:
-        imgs = json.load(f)
+        inp = json.load(f)
     # process caption
-    process_captions(imgs)
+    process_captions(inp)
     val_data = []
     train_data = []
     test_data = []
-    for img in imgs:
-        if img['split'] == 'train':
-            train_data.append(img)
-        elif img['split'] =='val':
-            val_data.append(img)
+    
+    for ix in inp['info']:
+        if ix['split'] == 'train':
+            train_data.append(ix)
+        elif ix['split'] =='val':
+            val_data.append(ix)
         else:
-            test_data.append(img)
-    write_json(train_data, os.path.join(args.out_root, 'train_reid.json'))
-    write_json(val_data, os.path.join(args.out_root, 'val_reid.json'))
-    write_json(test_data, os.path.join(args.out_root, 'test_reid.json'))
+            test_data.append(ix)
+            
+    write_json(train_data, os.path.join(args.out_root, 'train_cub.json'))
+    write_json(val_data, os.path.join(args.out_root, 'val_cub.json'))
+    write_json(test_data, os.path.join(args.out_root, 'test_cub.json'))
 
     return [train_data, val_data, test_data]
 
@@ -279,7 +283,7 @@ def load_split(args):
 
 
 def process_data(args):
-    
+    # generate the data if doesnt exist 
     if args.first:
         train_data, val_data, test_data = generate_split(args)
         vocab = build_vocab(train_data, args)
@@ -306,16 +310,18 @@ def process_data(args):
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Command for data preprocessing')
-    parser.add_argument('--img_root', type=str)
-    parser.add_argument('--json_root', type=str)
-    parser.add_argument('--out_root',type=str)
-    parser.add_argument('--min_word_count', type=int)
+    parser.add_argument('--img_root', type=str, default='/Users/nattari/Bielefeld_Work/Data/CUB_200_2011/CUB_200_2011/images')
+    parser.add_argument('--json_root', type=str, default='/Users/nattari/Bielefeld_Work/bitbucket/project_na/category_description_no_hypercategory/Data/train_instance_caption.json')
+    parser.add_argument('--out_root',type=str, default='/Users/nattari/Bielefeld_Work/bitbucket/project_na/Deep-Cross-Modal-Projection-Learning-for-Image-Text-Matching/data')
+    parser.add_argument('--min_word_count', type=int, default=3)
     parser.add_argument('--default_image_size', type=int, default=224)
     parser.add_argument('--first', action='store_true')
     args = parser.parse_args()
     return args
     
 if __name__ == '__main__':
+    print('coming')
     args = parse_args()
     makedir(args.out_root)
+    print(args)
     process_data(args)
