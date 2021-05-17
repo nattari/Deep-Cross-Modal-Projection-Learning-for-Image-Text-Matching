@@ -175,9 +175,10 @@ def process_dataset(split, decodedata):
     # Process dataset
     
     # Arrange by caption in a sorted form
-    dataset, label_range = create_dataset_sort(split, decodedata)
-    write_dataset(split, dataset, args, label_range)
-    
+    # dataset, label_range = create_dataset_sort(split, decodedata)
+    # write_dataset(split, dataset, args, label_range)
+    dataset, _ = create_dataset_sort(split, decodedata)
+    write_dataset(split, dataset, args)
 
 def create_dataset_sort(split, data):
     images_sort = []
@@ -221,7 +222,9 @@ def write_dataset(split, data, args, label_range=None):
     for img in data:
         assert len(img.captions_id) == 1
         caption_id.append(img.captions_id[0])
-        labels.append(img.id)
+        # labels.append(img.id)
+        # labels are the image class labels, in cub birds it is (0,199]
+        labels.append(int(img.image_path.split('.')[0])-1)
         images_path.append(img.image_path)
 
     #N = len(images)
