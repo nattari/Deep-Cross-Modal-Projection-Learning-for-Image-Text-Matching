@@ -2,11 +2,11 @@ import torch.utils.data as data
 import numpy as np
 import os
 import pickle
-import h5py
+#import h5py
 from PIL import Image
 from utils.directory import check_exists
-from scipy import misc
-#from scipy.misc import imread, imresize
+#from scipy import misc
+from scipy.misc import imread, imresize
 #from misc import imread, imresize
 
 class CuhkPedes(data.Dataset):

@@ -38,7 +38,7 @@ def parse_args():
     parser.add_argument('--cnn_dropout_keep', type=float, default=0.999)
     parser.add_argument('--constraints_text', action='store_true')
     parser.add_argument('--constraints_images', action='store_true')
-    parser.add_argument('--num_classes', type=int, default=11003)
+    parser.add_argument('--num_classes', type=int, default=200)
     parser.add_argument('--pretrained', action='store_true', help='whether or not to restore the pretrained visual model')
 
     # Optimization setting

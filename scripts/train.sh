@@ -15,12 +15,13 @@ num_epoches=300
 batch_size=16
 lr_decay_ratio=0.9
 epoches_decay=80_150_200
+num_classes=200
 
 python $INPUT_FILES/train.py \
     --CMPC \
     --CMPM \
     --bidirectional \
-    --pretrained \
+    --num_classes $num_classes \
     --model_path $PRETRAINED_PATH \
     --image_model $IMAGE_MODEL \
     --log_dir $LOG_DIR/lr-$lr-decay-$lr_decay_ratio-batch-$batch_size \
