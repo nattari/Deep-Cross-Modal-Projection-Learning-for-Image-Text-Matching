@@ -4,7 +4,7 @@ import logging
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='command for evaluate on CUHK-PEDES')
+    parser = argparse.ArgumentParser(description='command for evaluate on CUB birds')
     # Directory
     parser.add_argument('--image_dir', type=str, help='directory to store dataset')
     parser.add_argument('--anno_dir', type=str, help='directory to store anno')

@@ -19,7 +19,7 @@ class CuhkPedes(data.Dataset):
         target_transform (callable, optional): A funciton/transform that tkes in the
             targt and transfomrs it.
     '''
-    pklname_list = ['train_sort.pkl', 'val_sort.pkl', 'test_sort.pkl']
+    pklname_list = ['train.pkl', 'val.pkl', 'test.pkl']
     #h5name_list = ['train.h5', 'val.h5', 'test.h5']
 
     def __init__(self, image_root, anno_root, split, max_length, transform=None, target_transform=None, cap_transform=None):
